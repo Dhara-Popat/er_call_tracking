@@ -1,29 +1,33 @@
 import React from 'react';
 import 'toastify-js/src/toastify.css';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 import '../../index.scss';
 import TextError from './TextError';
 import { Link } from 'react-router-dom';
 
-const initialValues = {
-    email: '',
-    password: ''
-}
-
-const onSubmit = values => {
-    console.log('form data', values);
-}
-
-const validationSchema = Yup.object({
-    email: Yup.string()
-        .email('Invalid email format')
-        .required('Please Enter your email address'),
-    password: Yup.string()
-        .required('Password is required')
-})
-
 export function Login() {
+
+    let history = useHistory();
+
+    const initialValues = {
+        email: '',
+        password: ''
+    }
+
+    const onSubmit = values => {
+        console.log('form data', values);
+        history.push('/er-call-tracking')
+    }
+
+    const validationSchema = Yup.object({
+        email: Yup.string()
+            .email('Invalid email format')
+            .required('Please Enter your email address'),
+        password: Yup.string()
+            .required('Password is required')
+    })
 
     return (
         <div className='wrapper'>
