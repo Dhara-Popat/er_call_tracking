@@ -1,0 +1,9 @@
+.report-table{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.search-report{
+    align-self: flex-end;
+}
