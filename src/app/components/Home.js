@@ -21,12 +21,12 @@ function Home() {
                 </div>
                 <div className='col px-0'>
                     <Switch>
-                        <Route component={Dashboard} />
+                        {/* <Route component={Dashboard} /> */}
                         <Route exact path='/er-call-tracking/users' component={UserList} />
                         <Route exact path='/er-call-tracking/users/details' component={UserDetails} />
                         <Route exact path='/er-call-tracking/users/create' component={CreateUser} />
                         <Route exact path='/er-call-tracking/users/update' component={UpdateUser} />
-                        <Route exact path='/er-call-tracking/employees' component={EmpList} />
+                        <Route component={EmpList} />
                         <Route exact path='/er-call-tracking/employees/details' component={EmpDetails} />
                         <Route exact path='/er-call-tracking/employees/create' component={CreateEmp} />
                         <Route exact path='/er-call-tracking/employees/update' component={UpdateEmp} />

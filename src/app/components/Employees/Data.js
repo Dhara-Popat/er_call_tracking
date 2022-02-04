@@ -3,31 +3,18 @@ import { Link } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import "../../../index.scss";
-import { useSelector, useDispatch } from 'react-redux'
-import { fetchEmps } from '../../../_redux/reducers/empReducer';
-
 
 function EmpList() {
-
+  
   let history = useHistory();
   const [APIData, setAPIData] = useState([])
 
-  const dispatch = useDispatch()
-
-  const empStatus = useSelector(state => state.emps.status)
-
   useEffect(() => {
-    if (empStatus === 'idle') {
-      dispatch(fetchEmps())
-        .unwrap()
-        .then((result) => {
-          setAPIData(result)
-        })
-        .catch((error) => {
-          setAPIData(error)
-        })
-    }
-  }, [empStatus, dispatch])
+    axios.get('https://61ef8dfe732d93001778e454.mockapi.io/emp')
+      .then((response) => {
+        setAPIData(response.data)
+      })
+  }, [])
 
   // To store data in local storage
   const setData = (data) => {
@@ -142,3 +129,7 @@ function EmpList() {
 }
 
 export default EmpList;
+
+
+
+
