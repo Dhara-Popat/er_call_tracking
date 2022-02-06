@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import 'regenerator-runtime/runtime'
+import axios from 'axios';
 
 const initialState = {
     emps: [],
@@ -10,9 +11,17 @@ const initialState = {
 export const fetchEmps = createAsyncThunk(
     'emps',
     async () => {
-        const res = await fetch('https://61ef8dfe732d93001778e454.mockapi.io/emp')
-        const result = await res.json()
-        return result
+        const result = await axios.get('https://61ef8dfe732d93001778e454.mockapi.io/emp')
+        console.log(result.data)
+        return result.data
+    }
+)
+
+export const addEmps = createAsyncThunk(
+    'emps/addNewemp',
+    async (values) => {
+        const response = await axios.post(`https://61ef8dfe732d93001778e454.mockapi.io/emp`, values)
+        return response.data
     }
 )
 
@@ -34,22 +43,19 @@ export const empsSlice = createSlice({
         }
     },
     extraReducers(builder) {
-        builder
-            .addCase(fetchEmps.pending, (state, action) => {
-                state.status = 'loading'
-            })
-            .addCase(fetchEmps.fulfilled, (state, action) => {
-                state.status = 'succeeded'
-                state.emps = state.emps.concat(action.payload)
-            })
-            .addCase(fetchEmps.rejected, (state, action) => {
-                state.status = 'failed'
-                state.error = action.error.message
-            })
+        builder.addCase(fetchEmps.fulfilled, (state, action) => {
+            state.status = 'succeeded'
+            state.emps = state.emps.concat(action.payload)
+        })
+        builder.addCase(addEmps.fulfilled, (state, action) => {
+            state.emps.push(action.payload)
+        })
     }
 })
 
 export const { empAdded, reactionAdded } = empsSlice.actions
+export default empsSlice.reducer
+
 export const selectAllEmps = state => state.emps.emps
 
 export const selectPostById = (state, empId) =>

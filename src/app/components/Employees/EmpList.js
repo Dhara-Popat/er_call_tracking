@@ -6,7 +6,6 @@ import "../../../index.scss";
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchEmps } from '../../../_redux/reducers/empReducer';
 
-
 function EmpList() {
 
   let history = useHistory();

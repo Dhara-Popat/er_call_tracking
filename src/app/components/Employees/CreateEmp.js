@@ -6,6 +6,8 @@ import * as Yup from 'yup';
 import TextError from '../TextError';
 import * as BiIcons from 'react-icons/bi';
 import '../../../index.scss';
+import { addEmps } from '../../../_redux/reducers/empReducer';
+import { useDispatch } from 'react-redux';
 
 function CreateEmp() {
 
@@ -35,12 +37,25 @@ function CreateEmp() {
         department: Yup.string().required('Required!')
     })
 
-    const onSubmit = values => {
-        axios.post(`https://61ef8dfe732d93001778e454.mockapi.io/emp`, values)
-            .then(() => {
-                history.push('/employees');
-            })
+    // const onSubmit = values => {
+    //     axios.post(`https://61ef8dfe732d93001778e454.mockapi.io/emp`, values)
+    //         .then(() => {
+    //             history.push('/employees');
+    //         })
+    // }
+
+
+    const dispatch = useDispatch()
+    const onSubmit = async (values) => {
+            try {
+                await dispatch(addEmps( values )).unwrap()
+                history.push('/er-call-tracking');
+                console.log(values)
+            } catch (err) {
+                console.error('Failed to save the post: ', err)
+            } 
     }
+
 
     // For back button
     const back = () => {
