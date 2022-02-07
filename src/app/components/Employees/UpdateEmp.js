@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import TextError from '../TextError';
 import * as BiIcons from 'react-icons/bi';
 import '../../../index.scss';
+import { updateEmp, fetchEmps } from '../../../_redux/reducers/empReducer';
+import { useDispatch } from 'react-redux';
 
 function UpdateEmp() {
     let history = useHistory();
@@ -17,13 +18,10 @@ function UpdateEmp() {
     let jobTitle = localStorage.getItem('Job title')
     let department = localStorage.getItem('DepartMent')
     let job_des = localStorage.getItem('Job Description')
-    const [id, setId] = useState(null)
-
-    useEffect(() => {
-        setId(localStorage.getItem('ID'))
-    }, []);
+    let id = localStorage.getItem('ID')
 
     const initialValues = {
+        id: id,
         firstName: first_Name,
         lastName: last_name,
         email: email,
@@ -46,12 +44,12 @@ function UpdateEmp() {
         department: Yup.string().required('Required!')
     })
 
-
-    const updateAPIData = values => {
-        axios.put(`https://61ef8dfe732d93001778e454.mockapi.io/emp/${id}`, values)
+    const dispatch = useDispatch()
+    const updateAPIData = async (values) => {
+        await dispatch(updateEmp(values))
+            .unwrap()
             .then(() => {
-                history.push('/employees')
-                // history.goBack()
+                history.push('/er-call-tracking');
             })
     }
 

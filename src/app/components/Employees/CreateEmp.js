@@ -1,12 +1,11 @@
 import React from 'react';
-import axios from 'axios';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import { useHistory } from 'react-router-dom';
 import * as Yup from 'yup';
 import TextError from '../TextError';
 import * as BiIcons from 'react-icons/bi';
 import '../../../index.scss';
-import { addEmps } from '../../../_redux/reducers/empReducer';
+import { addEmp } from '../../../_redux/reducers/empReducer';
 import { useDispatch } from 'react-redux';
 
 function CreateEmp() {
@@ -37,18 +36,10 @@ function CreateEmp() {
         department: Yup.string().required('Required!')
     })
 
-    // const onSubmit = values => {
-    //     axios.post(`https://61ef8dfe732d93001778e454.mockapi.io/emp`, values)
-    //         .then(() => {
-    //             history.push('/employees');
-    //         })
-    // }
-
-
     const dispatch = useDispatch()
     const onSubmit = async (values) => {
             try {
-                await dispatch(addEmps( values )).unwrap()
+                await dispatch(addEmp( values )).unwrap()
                 history.push('/er-call-tracking');
                 console.log(values)
             } catch (err) {

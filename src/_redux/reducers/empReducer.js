@@ -17,7 +17,7 @@ export const fetchEmps = createAsyncThunk(
     }
 )
 
-export const addEmps = createAsyncThunk(
+export const addEmp = createAsyncThunk(
     'emps/addNewemp',
     async (values) => {
         const response = await axios.post(`https://61ef8dfe732d93001778e454.mockapi.io/emp`, values)
@@ -25,38 +25,44 @@ export const addEmps = createAsyncThunk(
     }
 )
 
+export const updateEmp = createAsyncThunk(
+    'emps/update',
+    async (values) => {
+        axios.put(`https://61ef8dfe732d93001778e454.mockapi.io/emp/${values.id}`, values)
+        return values
+    }
+)
+
+export const deleteEmp = createAsyncThunk(
+    'emps/delete',
+    async (id) => {
+        axios.delete(`https://61ef8dfe732d93001778e454.mockapi.io/emp/${id}`)
+        console.log(id)
+        return id
+    }
+)
+
+
 export const empsSlice = createSlice({
     name: 'emps',
-    initialState: initialState,
-    reducers: {
-        empAdded: {
-            reducer(state, action) {
-                state.emps.push(action.payload)
-            }
-        },
-        reactionAdded(state, action) {
-            const { empId, reaction } = action.payload
-            const existingEmp = state.emps.find(emp => emp.id === empId)
-            if (existingEmp) {
-                existingEmp.reaction[reaction]++
-            }
-        }
-    },
+    initialState,
     extraReducers(builder) {
         builder.addCase(fetchEmps.fulfilled, (state, action) => {
             state.status = 'succeeded'
             state.emps = state.emps.concat(action.payload)
         })
-        builder.addCase(addEmps.fulfilled, (state, action) => {
+        builder.addCase(addEmp.fulfilled, (state, action) => {
             state.emps.push(action.payload)
+        })
+        builder.addCase(updateEmp.fulfilled, (state, action) => {
+            state.emps = state.emps.concat(action.payload)
+        })
+        builder.addCase(deleteEmp.fulfilled, (state, action) => {
+            state.emps = state.emps.splice(action.payload)
         })
     }
 })
 
-export const { empAdded, reactionAdded } = empsSlice.actions
 export default empsSlice.reducer
 
 export const selectAllEmps = state => state.emps.emps
-
-export const selectPostById = (state, empId) =>
-    state.emps.find(emp => emp.id === empId)

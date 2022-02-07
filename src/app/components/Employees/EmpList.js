@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import "../../../index.scss";
 import { useSelector, useDispatch } from 'react-redux'
-import { fetchEmps } from '../../../_redux/reducers/empReducer';
+import { fetchEmps, deleteEmp } from '../../../_redux/reducers/empReducer';
 
 function EmpList() {
 
@@ -28,40 +28,32 @@ function EmpList() {
     }
   }, [empStatus, dispatch])
 
-  // To store data in local storage
-  const setData = (data) => {
-    let { id, firstName, lastName, email, title, firstNo, jobTitle, department, jobDes } = data
-    localStorage.setItem('ID', id)
-    localStorage.setItem('First Name', firstName)
-    localStorage.setItem('Last Name', lastName)
-    localStorage.setItem('Email', email)
-    localStorage.setItem('Title', title)
-    localStorage.setItem('First Number', firstNo)
-    localStorage.setItem('Job title', jobTitle)
-    localStorage.setItem('DepartMent', department)
-    localStorage.setItem('Job Description', jobDes)
-  }
-
   // Delete the data
   const onDelete = (id) => {
-    axios.delete(`https://61ef8dfe732d93001778e454.mockapi.io/emp/${id}`)
+    dispatch(deleteEmp(id))
+      .unwrap()
       .then(() => {
-        getData()
+        getData();
       })
   }
 
   // After deleting get the data
   const getData = () => {
-    axios.get('https://61ef8dfe732d93001778e454.mockapi.io/emp')
-      .then((getData) => {
-        setAPIData(getData.data)
+    dispatch(fetchEmps())
+      .unwrap()
+      .then((result) => {
+        setAPIData(result)
+      })
+      .catch((error) => {
+        setAPIData(error)
       })
   }
 
   // View the data
   const onView = (data) => {
     let { id, firstName, lastName, email, title, firstNo, jobTitle, department, jobDes } = data
-    axios.get(`https://61ef8dfe732d93001778e454.mockapi.io/emp`)
+    dispatch(fetchEmps())
+      .unwrap()
       .then(() => {
         console.log(data)
         localStorage.setItem('Id', id)
