@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
 import TextError from '../TextError';
 import * as BiIcons from 'react-icons/bi';
 import '../../../index.scss';
-import { updateEmp, fetchEmps } from '../../../_redux/reducers/empReducer';
+import { updateEmp, fetchEmps } from '../../../_redux/Employees/empActions';
 import { useDispatch } from 'react-redux';
 
 function UpdateEmp() {

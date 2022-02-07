@@ -5,7 +5,7 @@ import * as Yup from 'yup';
 import TextError from '../TextError';
 import * as BiIcons from 'react-icons/bi';
 import '../../../index.scss';
-import { addEmp } from '../../../_redux/reducers/empReducer';
+import { addEmp } from '../../../_redux/Employees/empActions';
 import { useDispatch } from 'react-redux';
 
 function CreateEmp() {
